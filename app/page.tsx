@@ -29,36 +29,30 @@ const LandingPage = () => {
 
   return (
     <div className={`min-h-screen flex flex-col ${isDarkMode ? 'dark' : ''}`}>
-      {/* Navbar */}
-      <nav className="bg-white dark:bg-gray-900 text-[#6F67A8] dark:text-gray-200 p-4 flex justify-between items-center shadow-lg rounded-lg mx-auto">
+      {/* Navbar - Fixed with high z-index */}
+      <nav className="bg-white dark:bg-purple-400 text-[#6F67A8] dark:text-gray-200 p-4 flex justify-between items-center shadow-lg w-full fixed top-0 left-0 z-50 h-20">
         <div className="flex items-center gap-2">
-          <img src="/logo.png" alt="Vivace Logo" className="w-32 h-28 object-contain" />
+          <img src="/logo.png" alt="Vivace Logo" className="w-32 h-12 object-contain" />
         </div>
         <div className="space-x-4 flex items-center">
           <button
             onClick={() => router.push("/login")}
-            className="bg-[#a796cb] dark:bg-[#C68EFD] text-white px-4 py-2 rounded-lg font-semibold hover:bg-[#957da3] dark:hover:bg-[#E9A5F1] transition-colors"
+            className="bg-[#a796cb] dark:bg-purple-950 text-white px-4 py-2 rounded-lg font-semibold hover:bg-[#957da3] dark:hover:bg-[#E9A5F1] transition-colors"
           >
             Log In
           </button>
           <button
             onClick={() => router.push("/register")}
-            className="bg-[#6F67A8] dark:bg-[#8F87F1] text-white px-4 py-2 rounded-lg font-semibold hover:bg-[#5F5798] dark:hover:bg-[#FED2E2] transition-colors"
+            className="bg-[#6F67A8] dark:bg-purple-950 text-white px-4 py-2 rounded-lg font-semibold hover:bg-[#5F5798] dark:hover:bg-[#FED2E2] transition-colors"
           >
             Sign Up
-          </button>
-          <button
-            onClick={toggleDarkMode}
-            className="bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200 px-4 py-2 rounded-lg font-semibold hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors"
-          >
-            {isDarkMode ? 'Light Mode' : 'Dark Mode'}
           </button>
         </div>
       </nav>
 
-      {/* Hero Section */}
-      <header className="bg-[#6F67A8] dark:bg-gray-800 text-white py-20 relative">
-        <div className="absolute inset-0 z-0">
+      {/* Hero Section - Adjusted for navbar height */}
+      <header className="bg-[#6F67A8] dark:bg-gray-800 text-white pt-24 pb-20 relative mt-20"> {/* Added mt-20 and adjusted pt-24 */}
+        <div className="absolute inset-0 z-0 overflow-hidden">
           <img
             src="https://images.unsplash.com/photo-1507838153414-b4b713384a76?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8bXVzaWMlMjB0aGVvcnl8ZW58MHx8MHx8fDA%3D"
             alt="Music"

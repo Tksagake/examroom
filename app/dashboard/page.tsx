@@ -1,28 +1,30 @@
+"use client";
+
 import { FC, useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useRouter } from "next/navigation";
 import { supabase } from "../lib/supabase";
 
 const Dashboard: FC = () => {
   const [userEmail, setUserEmail] = useState<string | null>(null);
-  const navigate = useNavigate();
+  const router = useRouter();
 
   // Check if the user is logged in
   useEffect(() => {
     const fetchUser = async () => {
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) {
-        navigate("/login"); // Redirect if not logged in
+        router.push("/login"); // Redirect if not logged in
       } else {
-        setUserEmail(user.email ?? null );
+        setUserEmail(user.email ?? null);
       }
     };
     fetchUser();
-  }, [navigate]);
+  }, [router]);
 
   // Logout function
   const handleLogout = async () => {
     await supabase.auth.signOut();
-    navigate("/login");
+    router.push("/login");
   };
 
   return (
@@ -32,19 +34,19 @@ const Dashboard: FC = () => {
 
       <div className="mt-8 flex flex-col space-y-4">
         <button
-          onClick={() => navigate("/exams")}
+          onClick={() => router.push("/exams")}
           className="px-6 py-3 bg-[#C68EFD] text-white rounded-md hover:bg-[#E9A5F1]"
         >
           View Exams
         </button>
         <button
-          onClick={() => navigate("/assignments")}
+          onClick={() => router.push("/assignments")}
           className="px-6 py-3 bg-[#E9A5F1] text-white rounded-md hover:bg-[#FED2E2]"
         >
           View Assignments
         </button>
         <button
-          onClick={() => navigate("/performance")}
+          onClick={() => router.push("/performance")}
           className="px-6 py-3 bg-[#FED2E2] text-black rounded-md hover:bg-[#C68EFD]"
         >
           View Performance Report
