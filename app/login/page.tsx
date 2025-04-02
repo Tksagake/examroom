@@ -8,18 +8,41 @@ const LoginPage: FC = () => {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
+  const [error, setError] = useState<string>("");
   const router = useRouter();
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
+    setError("");
 
-    const { error } = await supabase.auth.signInWithPassword({ email, password });
+    const { data, error } = await supabase.auth.signInWithPassword({ email, password });
 
     if (error) {
-      alert("Error logging in: " + error.message);
-    } else {
-      router.push("/dashboard"); // Redirect on success
+      setError(error.message);
+      setLoading(false);
+      return;
+    }
+
+    if (data.user) {
+      // Fetch user role from Supabase
+      const { data: userData, error: userError } = await supabase
+        .from("users")
+        .select("role")
+        .eq("id", data.user.id)
+        .single();
+
+      if (userError) {
+        setError(userError.message);
+        setLoading(false);
+        return;
+      }
+
+      if (userData?.role === "admin") {
+        router.push("/admin/dashboard");
+      } else {
+        router.push("/dashboard");
+      }
     }
 
     setLoading(false);
@@ -58,6 +81,7 @@ const LoginPage: FC = () => {
           >
             {loading ? "Logging in..." : "Log In"}
           </button>
+          {error && <p className="text-red-500 text-center">{error}</p>}
         </form>
         <p className="mt-4 text-center text-[#6D28D9]">
           <a href="/forgot-password" className="hover:underline">Forgot your password?</a>

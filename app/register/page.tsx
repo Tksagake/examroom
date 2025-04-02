@@ -40,9 +40,10 @@ const RegisterPage: FC = () => {
     });
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSignUp = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+    setError("");
+
     const validationError = validateForm();
     if (validationError) {
       setError(validationError);
@@ -50,7 +51,6 @@ const RegisterPage: FC = () => {
     }
 
     setLoading(true);
-    setError(null);
 
     try {
       const { data, error } = await supabase.auth.signUp({
@@ -66,12 +66,11 @@ const RegisterPage: FC = () => {
 
       if (error) throw error;
 
-      if (data.user?.identities?.length === 0) {
-        throw new Error("User already registered");
+      if (data.user) {
+        // Automatically add new user to the 'users' table
+        await supabase.from("users").insert([{ id: data.user.id, email: data.user.email, role: "student" }]);
+        router.push("/dashboard");
       }
-
-      setMessage("Check your email for the confirmation link!");
-      setFormData({ email: "", password: "", confirmPassword: "", fullName: "" });
 
     } catch (err: any) {
       setError(err.message || "Registration failed");
@@ -98,7 +97,7 @@ const RegisterPage: FC = () => {
   return (
     <div className="min-h-screen flex flex-col justify-center items-center bg-gradient-to-br from-[#FED2E2] to-[#E9A5F1]">
       <div className="bg-white/10 p-8 rounded-lg shadow-lg backdrop-blur-md max-w-md w-full">
-      <div className="flex items-center justify-center mb-6">
+        <div className="flex items-center justify-center mb-6">
           <img src="/logo.png" alt="Vivace Logo" className="w-32 h-28 object-contain" />
           <h2 className="text-3xl font-bold text-[#4C1D95] ml-4">VivaceKenya Exam Portal</h2>
         </div>
@@ -118,7 +117,7 @@ const RegisterPage: FC = () => {
           </div>
         )}
 
-        <form onSubmit={handleSubmit} className="space-y-4">
+        <form onSubmit={handleSignUp} className="space-y-4">
           <div>
             <label className="block text-sm font-medium text-[#4C1D95] mb-1">
               Full Name
