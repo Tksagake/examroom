@@ -3,7 +3,7 @@
 import { FC, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { supabase } from "../lib/supabase";
-
+import StudentNavBar from "../components/StudentNavbar";
 
 const Dashboard: FC = () => {
   const [userEmail, setUserEmail] = useState<string | null>(null);
@@ -31,6 +31,7 @@ const Dashboard: FC = () => {
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-[#FFF] text-black">
       <h1 className="text-4xl font-bold text-[#8F87F1]">Dashboard</h1>
+      <StudentNavBar />
       <p className="mt-4 text-lg">Welcome, {userEmail}!</p>
 
       <div className="mt-8 flex flex-col space-y-4">

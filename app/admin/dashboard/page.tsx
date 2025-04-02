@@ -3,7 +3,6 @@
 import { FC, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { supabase } from "../../lib/supabase";
-import AdminNavbar from "../../components/AdminNavbar";
 
 const Dashboard: FC = () => {
   const [userEmail, setUserEmail] = useState<string | null>(null);
@@ -33,7 +32,7 @@ const Dashboard: FC = () => {
         
       <h1 className="text-4xl font-bold text-[#8F87F1]">Dashboard</h1>
       <p className="mt-4 text-lg">Welcome, {userEmail}!</p>
-<AdminNavbar />
+
       <div className="mt-8 flex flex-col space-y-4">
         <button
           onClick={() => router.push("/exams")}
