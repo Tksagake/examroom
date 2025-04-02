@@ -4,6 +4,7 @@ import { FC, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { supabase } from "../lib/supabase";
 
+
 const Dashboard: FC = () => {
   const [userEmail, setUserEmail] = useState<string | null>(null);
   const router = useRouter();
